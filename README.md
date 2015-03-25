@@ -1,6 +1,6 @@
-yii2-dynamic-field
+yii2-dynamic-fields
 ==================
-Widget for display multiple fields.
+Widget for display dynamic fields.
 
 Installation
 ------------
@@ -10,7 +10,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist bupy7/yii2-dynamic-field "*"
+php composer.phar require --prefer-dist bupy7/yii2-dynamic-fields "*"
 ```
 
 or add
@@ -24,8 +24,3 @@ to the require section of your `composer.json` file.
 
 Usage
 -----
-
-Once the extension is installed, simply use it in your code by  :
-
-```php
-<?= \bupy7\dynafield\AutoloadExample::widget(); ?>```
