@@ -6,6 +6,7 @@ use yii\helpers\Html;
 use yii\base\Widget;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
+use yii\helpers\Url;
 
 /**
  * Widget for display dynamic fields.
@@ -36,6 +37,11 @@ class DynaFields extends Widget
      * @var array Models the data model that this widget is associated with.
      */
     public $models;
+    
+    /**
+     * @var string Primary key of model. By default 'id'.
+     */
+    public $primaryKey = 'id';
     
     /**
      * @var string the model attribute that this widget is associated with.
@@ -88,6 +94,9 @@ class DynaFields extends Widget
         if (!$this->hasModel()) {
             throw new InvalidConfigException("Either 'models' and 'attribute' properties must be specified.");
         }
+        if (empty($this->actionUrlAdd) || empty($this->actionUrlRemove)) {
+            throw new InvalidConfigException("Either 'actionUrlAdd' and 'actionUrlRemove' properties must be specified.");
+        }
         
         $this->typesMap = array_merge([
             'text' => '_text',
@@ -109,45 +118,33 @@ class DynaFields extends Widget
                 'inputOptions' => $this->inputOptions,    
             ]);
             if (!$i) {
-                $button = Html::button(Html::tag('span', '', [
+                $button = Html::a(Html::tag('span', '', [
                     'class' => 'glyphicon glyphicon-plus',
-                ]), [
+                ]), $this->actionUrlAdd, [
                     'class' => 'btn btn-default',
+                    'id' => $this->id . '-add'
                 ]);
             } else {
-                $button = Html::button(Html::tag('span', '', [
+                $button = Html::a(Html::tag('span', '', [
                     'class' => 'glyphicon glyphicon-minus',
-                ]), [
+                ]), array_merge((array)$this->actionUrlRemove, ['id' => $this->models[$i]->{$this->primaryKey}]), [
                     'class' => 'btn btn-default',
+                    'id' => $this->id . '-remove',
                 ]);
             }
             $error = Html::error($this->models[$i], "[{$i}]{$this->attribute}", ['class' => 'help-block']);
             
-            if (!$i) {
-                echo str_replace([
-                    '{label}',
-                    '{input}',
-                    '{button}',
-                    '{error}',
-                ], [
-                    $label,
-                    $input,
-                    $button,
-                    $error,
-                ], $this->templateFirst);
-            } else {
-                echo str_replace([
-                    '{label}',
-                    '{input}',
-                    '{button}',
-                    '{error}',
-                ], [
-                    $label,
-                    $input,
-                    $button,
-                    $error,
-                ], $this->templateSecond);
-            }
+            echo str_replace([
+                '{label}',
+                '{input}',
+                '{button}',
+                '{error}',
+            ], [
+                $label,
+                $input,
+                $button,
+                $error,
+            ], !$i ? $this->templateFirst : $this->templateSecond);
         }
     }
     
