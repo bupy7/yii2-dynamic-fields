@@ -68,6 +68,11 @@ class DynaFields extends Widget
     public $urlRemove;
     
     /**
+     * @var array Options of action button.
+     */
+    public $buttonOptions = ['class' => 'btn btn-default'];
+    
+    /**
      * @var array Options of Pjax.
      * @see \yii\widgets\Pjax
      */
@@ -104,12 +109,13 @@ class DynaFields extends Widget
             '<div class="input-group">{input}<span class="input-group-btn">{button}</span></div>',
             $form->fieldConfig['template']
         );
-        $button = Html::a(Html::tag('span', '', [
-            'class' => 'glyphicon glyphicon-plus',
-        ]), array_merge((array)$this->urlAdd), [
-            'class' => 'btn btn-default',
-            'id' => $this->id . '-add'
-        ]);
+        $button = Html::a(
+            Html::tag('span', '', [
+                'class' => 'glyphicon glyphicon-plus',
+            ]), 
+            array_merge((array)$this->urlAdd), 
+            $this->buttonOptions
+        );
         $field = $form->field($this->models[0], "[0]{$this->attribute}", $this->fieldOptions);
         $field = call_user_func_array([$field, $this->inputMethod], $this->inputMethodArgs);  
         echo str_replace('{button}', $button, $field);
@@ -120,12 +126,13 @@ class DynaFields extends Widget
             $form->fieldConfig['template']
         );
         for ($i = 1; $i != count($this->models); $i++) {
-            $button = Html::a(Html::tag('span', '', [
+            $button = Html::a(
+                Html::tag('span', '', [
                     'class' => 'glyphicon glyphicon-minus',
-                ]), array_merge((array)$this->urlRemove, ['id' => $this->models[$i]->{$this->primaryKey}]), [
-                    'class' => 'btn btn-default',
-                    'id' => $this->id . '-remove',
-                ]);
+                ]), 
+                array_merge((array)$this->urlRemove, ['id' => $this->models[$i]->{$this->primaryKey}]),
+                $this->buttonOptions
+            );
             $field = $form->field($this->models[$i], "[{$i}]{$this->attribute}", $this->fieldOptions);
             $field = call_user_func_array([$field, $this->inputMethod], $this->inputMethodArgs);
             echo str_replace('{button}', $button, $field);
