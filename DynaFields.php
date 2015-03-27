@@ -9,7 +9,11 @@ use yii\base\Model;
 use yii\widgets\Pjax;
 
 /**
- * Widget for display dynamic fields.
+ * Widget for display dynamic fields, adding and removing their use Pjax.
+ * 
+ * Home page: https://github.com/bupy7/yii2-dynamic-fields
+ * 
+ * @author Vasilij Belosludcev http://mihaly4.ru
  */
 class DynaFields extends Widget
 {
