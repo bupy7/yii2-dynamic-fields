@@ -18,7 +18,7 @@ php composer.phar require --prefer-dist bupy7/yii2-dynamic-fields "*"
 or add
 
 ```
-"bupy7/yii2-dynamic-field": "*"
+"bupy7/yii2-dynamic-fields": "*"
 ```
 
 to the require section of your `composer.json` file.
