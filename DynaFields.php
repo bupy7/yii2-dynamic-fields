@@ -109,6 +109,12 @@ class DynaFields extends Widget
     public function run()
     {
         $form = clone $this->form;
+        if (empty($form->fieldConfig['template'])) {
+            $form->fieldConfig['template'] = "{label}\n{input}\n{error}";
+        }
+        if (empty($form->fieldConfig['labelOptions'])) {
+            $form->fieldConfig['labelOptions'] = ['class' => 'control-label'];
+        }
         $form->fieldConfig['template'] = str_replace('{input}', $this->inputTemplate, $form->fieldConfig['template']);
         $button = Html::a(
             Html::tag('span', '', [
