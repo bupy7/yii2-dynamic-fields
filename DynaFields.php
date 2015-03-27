@@ -73,6 +73,12 @@ class DynaFields extends Widget
     public $buttonOptions = ['class' => 'btn btn-default'];
     
     /**
+     * @var string Template of input. List allow tokens: {input} and {button}. In token {button} will be inserted 
+     * action button. In token {input} will be inserted input field.
+     */
+    public $inputTemplate = '<div class="input-group">{input}<span class="input-group-btn">{button}</span></div>';
+    
+    /**
      * @var array Options of Pjax.
      * @see \yii\widgets\Pjax
      */
@@ -94,6 +100,7 @@ class DynaFields extends Widget
         if (empty($this->urlAdd) || empty($this->urlRemove)) {
             throw new InvalidConfigException("Either 'urlAdd' and 'urlRemove' properties must be specified.");
         }
+        Pjax::begin($this->pjaxOptions);
     }
     
     /**
@@ -101,14 +108,8 @@ class DynaFields extends Widget
      */
     public function run()
     {
-        Pjax::begin($this->pjaxOptions);
-        
         $form = clone $this->form;
-        $form->fieldConfig['template'] = str_replace(
-            '{input}',
-            '<div class="input-group">{input}<span class="input-group-btn">{button}</span></div>',
-            $form->fieldConfig['template']
-        );
+        $form->fieldConfig['template'] = str_replace('{input}', $this->inputTemplate, $form->fieldConfig['template']);
         $button = Html::a(
             Html::tag('span', '', [
                 'class' => 'glyphicon glyphicon-plus',
