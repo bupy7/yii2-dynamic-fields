@@ -54,6 +54,7 @@ ActiveForm::end();
 Added following code to your controller:
 
 ```php
+use Yii;
 use yii\base\Model;
 
 /**
