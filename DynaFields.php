@@ -14,6 +14,7 @@ use yii\widgets\Pjax;
  * Home page: https://github.com/bupy7/yii2-dynamic-fields
  * 
  * @author Vasilij Belosludcev http://mihaly4.ru
+ * @version 1.0.0
  */
 class DynaFields extends Widget
 {
