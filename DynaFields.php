@@ -99,7 +99,6 @@ class DynaFields extends Widget
             '<div class="input-group">{input}<span class="input-group-btn">{button}</span></div>',
             $form->fieldConfig['template']
         );
-        
         $button = Html::a(Html::tag('span', '', [
             'class' => 'glyphicon glyphicon-plus',
         ]), array_merge((array)$this->urlAdd), [
@@ -127,6 +126,8 @@ class DynaFields extends Widget
             echo str_replace('{button}', $button, $field);
         }
         
+        $this->form->attributes = $form->attributes;
+
         Pjax::end();
     }
     
