@@ -12,7 +12,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require bupy7/yii2-dynamic-fields "*"
+php composer.phar require --prefer-dist bupy7/yii2-dynamic-fields "*"
 ```
 
 or add
