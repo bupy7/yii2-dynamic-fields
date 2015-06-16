@@ -95,6 +95,11 @@ class DynaFields extends Widget
     public $labelEach = false;
     
     /**
+     * @var boolean Whether set 'true' then will be displays hint for each field and not only for first field.
+     */
+    public $hintEach = false;
+    
+    /**
      * @inheritdoc
      */
     public function init()
@@ -115,7 +120,7 @@ class DynaFields extends Widget
     {
         $form = clone $this->form;
         if (empty($form->fieldConfig['template'])) {
-            $form->fieldConfig['template'] = "{label}\n{input}\n{error}";
+            $form->fieldConfig['template'] = "{label}\n{input}\n{hint}\n{error}";
         }
         if (empty($form->fieldConfig['labelOptions'])) {
             $form->fieldConfig['labelOptions'] = ['class' => 'control-label'];
@@ -136,6 +141,13 @@ class DynaFields extends Widget
             $form->fieldConfig['template'] = str_replace(
                 '{label}', 
                 Html::tag('label', '', $form->fieldConfig['labelOptions']), 
+                $form->fieldConfig['template']
+            );
+        }
+        if (!$this->hintEach) {
+            $form->fieldConfig['template'] = preg_replace(
+                '/\{hint\}|\{hint\}\\n|\{hint\}\s/i',
+                '', 
                 $form->fieldConfig['template']
             );
         }
