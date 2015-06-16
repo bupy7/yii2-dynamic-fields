@@ -90,6 +90,11 @@ class DynaFields extends Widget
     ];
     
     /**
+     * @var boolean Whether set 'true' then will be displays label for each field and not only for first field.
+     */
+    public $labelEach = false;
+    
+    /**
      * @inheritdoc
      */
     public function init()
@@ -127,11 +132,13 @@ class DynaFields extends Widget
         $field = call_user_func_array([$field, $this->inputMethod], $this->inputMethodArgs);  
         echo str_replace('{button}', $button, $field);
         
-        $form->fieldConfig['template'] = str_replace(
-            '{label}', 
-            Html::tag('label', '', $form->fieldConfig['labelOptions']), 
-            $form->fieldConfig['template']
-        );
+        if (!$this->labelEach) {
+            $form->fieldConfig['template'] = str_replace(
+                '{label}', 
+                Html::tag('label', '', $form->fieldConfig['labelOptions']), 
+                $form->fieldConfig['template']
+            );
+        }
         for ($i = 1; $i != count($this->models); $i++) {
             $button = Html::a(
                 Html::tag('span', '', [
