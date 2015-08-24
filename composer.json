@@ -3,6 +3,7 @@
     "description": "Widget for display dynamic fields, adding and removing their use Pjax.",
     "homepage": "https://github.com/bupy7/yii2-dynamic-fields",
     "type": "yii2-extension",
+    "version": "1.0.1",
     "keywords": ["yii2", "extension", "widget", "dynamic", "fields", "pjax", "multiple"],
     "license": "BSD-3-Clause",
     "authors": [
