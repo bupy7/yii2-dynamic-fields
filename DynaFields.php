@@ -146,19 +146,21 @@ class DynaFields extends Widget
             echo $this->field($form, $this->models[$keys[$i]], "[{$keys[$i]}]{$this->attribute}", $button);
         }
         if ($this->form->enableClientScript) {
-            $clientOptions = [];
+            $dfClientOptions = [];
             for ($i = 0; $i != count($form->attributes); $i++) {
                 if (strpos($form->attributes[$i]['name'], $this->attribute) !== false) {
-                    $clientOptions[] = $form->attributes[$i];
+                    $dfClientOptions[] = $form->attributes[$i];
                 }
             }
-            $clientOptions = Json::encode($clientOptions);
+            $dfClientOptions = Json::encode($dfClientOptions);
+            $formClientOptions = Json::encode($this->form->attributes);
             $js = <<<JS
 (function($) {
-    var clientOptions = {$clientOptions},
+    var dfClientOptions = {$dfClientOptions},
         \$form = $('#{$this->form->id}');
-    for (var i = 0; i != clientOptions.length; i++) {
-        \$form.yiiActiveForm('add', clientOptions[i]);
+    \$form.yiiActiveForm('data').attributes = {$formClientOptions};
+    for (var i = 0; i != dfClientOptions.length; i++) {
+        \$form.yiiActiveForm('add', dfClientOptions[i]);
     }
 }(jQuery));
 JS;
