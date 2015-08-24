@@ -86,8 +86,6 @@ class DynaFields extends Widget
      * @var boolean Whether set 'true' then will be displays hint for each field and not only for first field.
      */
     public $hintEach = false;
-    
-    private $_pjax;
 
     /**
      * @inheritdoc
@@ -100,7 +98,7 @@ class DynaFields extends Widget
         if (empty($this->urlAdd) || empty($this->urlRemove)) {
             throw new InvalidConfigException("Either 'urlAdd' and 'urlRemove' properties must be specified.");
         }
-        $this->_pjax = Pjax::begin($this->pjaxOptions);
+        Pjax::begin($this->pjaxOptions);
     }
 
     /**
