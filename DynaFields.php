@@ -125,18 +125,16 @@ class DynaFields extends Widget
         if (empty($form->fieldConfig['labelOptions'])) {
             $form->fieldConfig['labelOptions'] = ['class' => 'control-label'];
         }
+        $keys = array_keys($this->models);
         $form->fieldConfig['template'] = str_replace('{input}', $this->inputTemplate, $form->fieldConfig['template']);
         $button = Html::a(
             Html::tag('span', '', [
                 'class' => 'glyphicon glyphicon-plus',
             ]), 
-            array_merge((array)$this->urlAdd), 
+            $this->urlAdd, 
             $this->buttonOptions
         );
-        $field = $form->field($this->models[0], "[0]{$this->attribute}", $this->fieldOptions);
-        $field = call_user_func_array([$field, $this->inputMethod], $this->inputMethodArgs);  
-        echo str_replace('{button}', $button, $field);
-        
+        echo $this->field($form, $this->models[$keys[0]], "[{$keys[0]}]{$this->attribute}", $button);
         if (!$this->labelEach) {
             $form->fieldConfig['template'] = str_replace(
                 '{label}', 
@@ -151,7 +149,7 @@ class DynaFields extends Widget
                 $form->fieldConfig['template']
             );
         }
-        for ($i = 1; $i != count($this->models); $i++) {
+        for ($i = 1; $i != count($keys); $i++) {
             $button = Html::a(
                 Html::tag('span', '', [
                     'class' => 'glyphicon glyphicon-minus',
@@ -159,14 +157,25 @@ class DynaFields extends Widget
                 array_merge((array)$this->urlRemove, ['id' => $this->models[$i]->{$this->primaryKey}]),
                 $this->buttonOptions
             );
-            $field = $form->field($this->models[$i], "[{$i}]{$this->attribute}", $this->fieldOptions);
-            $field = call_user_func_array([$field, $this->inputMethod], $this->inputMethodArgs);
-            echo str_replace('{button}', $button, $field);
-        }
-        
+            echo $this->field($form, $this->models[$keys[$i]], "[{$keys[$i]}]{$this->attribute}", $button);
+        }      
         $this->form->attributes = $form->attributes;
-
         Pjax::end();
+    }
+    
+    /**
+     * Render field of \yii\widgets\ActiveForm.
+     * @param \yii\widgets\ActiveForm $form
+     * @param \yii\base\Model $model The data model.
+     * @param string $attribute Attribute name.
+     * @param string $button Action button of field.
+     * @return string
+     */
+    protected function field($form, $model, $attribute, $button)
+    {
+        $field = $form->field($model, $attribute, $this->fieldOptions);
+        $field = call_user_func_array([$field, $this->inputMethod], $this->inputMethodArgs);  
+        return str_replace('{button}', $button, $field);   
     }
     
     /**
